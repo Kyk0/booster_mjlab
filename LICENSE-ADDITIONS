@@ -1,0 +1,45 @@
+MIT License
+
+Copyright (c) 2026 Kyrylo Kolesnichenko
+
+This license covers only the files added by this fork (listed below). The rest of the
+repository is the upstream booster_mjlab code by IntelligentRoboticsLab, which has no
+license file; its terms are set by its authors.
+
+Files covered:
+  src/booster_mjlab/tasks/loco_teleop/ (except loco_teleop_env_cfg.py and the K1 sensor
+    setup in config/k1/env_cfgs.py, adapted from upstream tasks/velocity: upstream terms)
+  src/booster_mjlab/tasks/heels/
+  src/booster_mjlab/robots/booster_k1/xmls/meshes/Left_Shoe_50mm.STL
+  src/booster_mjlab/robots/booster_k1/xmls/meshes/Right_Shoe_50mm.STL
+  src/booster_mjlab/scripts/compare_fullbody_arms.py
+  src/booster_mjlab/scripts/compare_upper_body.py
+  src/booster_mjlab/scripts/export_loco_teleop_deploy.py
+  src/booster_mjlab/scripts/loco_teleop_utils.py
+  src/booster_mjlab/scripts/make_grid_video.py
+  src/booster_mjlab/scripts/make_sbs_video.py
+  src/booster_mjlab/scripts/render_fullbody_arms.py
+  src/booster_mjlab/scripts/render_pair.py
+  src/booster_mjlab/scripts/render_shoe_compare.py
+  src/booster_mjlab/scripts/teleop.py
+  deploy/booster_deploy/ (written against booster_deploy, Apache-2.0, Booster Robotics)
+  docs/loco_teleop.md, docs/heels.md
+  pages/
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

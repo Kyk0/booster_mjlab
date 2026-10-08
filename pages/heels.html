@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K1 In Heels</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<h1>K1 in 50 mm heels</h1>
+<p class="sub">3D-printed heel shoes for the Booster K1, and walking policies warm-started in them. Simulation only so far.</p>
+
+<figure><img src="media/shoes.jpg" alt="Printed 50 mm heel shoes"><figcaption>Printed shoes, 350 g each.</figcaption></figure>
+
+<figure><video src="media/fullbody-shoes.mp4" controls autoplay muted loop playsinline></video>
+<figcaption>Full-body walking policy in the shoes. Left: trained bare-foot. Right: warm-started in the shoes.</figcaption></figure>
+
+<figure><video src="media/teleop-shoes.mp4" controls muted loop playsinline></video>
+<figcaption>Loco-teleop policy in the shoes with the same random arm motion. Left: trained bare-foot. Right: warm-started in the shoes.</figcaption></figure>
+
+<h2>How</h2>
+<ul>
+<li>The shoe mesh replaces the foot collision. The shoe mass is merged into the foot inertia, and the sole sites move to the shoe underside.</li>
+<li>Reference motions for AMP and resets: +15.6° ankle pitch (the shoe sole pitch) and +58.5 mm root height, so the shoe sole is flat where the bare sole was.</li>
+<li>Warm start from the bare-foot checkpoint. Actor and critic weights are kept; the optimizer and curricula start fresh.</li>
+</ul>
+
+<h2>Results (sim)</h2>
+<ul>
+<li>Loco-teleop with full arm motion: falls went from 28% to 3.9% after warm start, with a plateau after about 300 iterations. Still a bit less stable than bare feet (0–2%).</li>
+<li>Full-body walk in booster_deploy MuJoCo: the bare-foot policy drifts 1.4 m while standing. The warm-started one stands still and tracks 0.5 and 1.0 m/s commands at 0.50 and 0.95 m/s.</li>
+</ul>
+
+<p class="note"><a href="../docs/heels.md">Details and commands</a> · Shoe files: <a href="https://github.com/Kyk0/k1-heel-shoes">k1-heel-shoes</a> · <a href="loco-teleop.html">Loco-teleop</a> · <a href="index.html">All projects</a></p>
+</main></body></html>

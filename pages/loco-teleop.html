@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K1 Loco-Teleop</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<h1>K1 loco-teleop</h1>
+<p class="sub">A walking policy for the legs only. The head and arms are left free for teleop. Simulation only so far.</p>
+
+<figure><video src="media/teleop-arms.mp4" controls autoplay muted loop playsinline></video>
+<figcaption>Same random arm motion on both. Left: the full-body walking policy with its arm outputs overridden. Right: the legs-only policy trained with random arms.</figcaption></figure>
+
+<h2>What changed vs. the full-body walking task</h2>
+<ul>
+<li>The policy outputs 12 leg joints instead of 22. It still observes all joint positions and velocities, so it sees what the arms do.</li>
+<li>The arms are part of the environment. A generator moves them every step: circles, sweeps and random jumps over the whole joint range, 0.2–1.5 Hz, peaks around 15 rad/s.</li>
+<li>The arm posture reward is removed. The pose and joint-limit rewards apply to the legs only.</li>
+<li>Same AMP setup: a legs-only discriminator on LAFAN walking, PPO with Muon, 4096 envs.</li>
+</ul>
+
+<h2>Results (sim)</h2>
+<table><tr><th>Arms at evaluation</th><th>Trained arms still</th><th>Trained ±0.6 rad</th><th>Trained full motion</th></tr>
+<tr><td>Circles over the full range</td><td>100% fell</td><td>25% fell</td><td>0.7–2.5% fell</td></tr></table>
+<p>512 envs, 40 s each. Training takes about 2 s per iteration on one RTX 6000 (4000 iterations).</p>
+
+<figure><video src="media/smooth-arms.mp4" controls muted loop playsinline></video>
+<figcaption>booster_deploy MuJoCo: smooth arm motion from a library of self-collision-free poses (for demos on the robot).</figcaption></figure>
+
+<h2>Deploy</h2>
+<p>A booster_deploy task: arm targets over UDP from a teleop script, a 1.5 s ramp-in, rate limits, and heading hold. Tested in MuJoCo sim2sim only.</p>
+
+<p class="note"><a href="../docs/loco_teleop.md">Details and commands</a> · <a href="heels.html">Heels project</a> · <a href="index.html">All projects</a></p>
+</main></body></html>

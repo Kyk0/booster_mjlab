@@ -1,5 +1,13 @@
 <img src="./assets/banner.webp" alt="Project banner">
 
+> **This fork** adds two K1 projects on top of booster_mjlab (simulation only so far):
+>
+> - **Loco-teleop**: a legs-only walking policy trained with random arm motion over the full range, so the upper body is free for teleop. [docs/loco_teleop.md](docs/loco_teleop.md)
+> - **Heels**: walking in 3D-printed 50 mm heel shoes by warm-starting bare-foot policies (full-body and loco-teleop). [docs/heels.md](docs/heels.md)
+>
+> Deploy task for booster_deploy (UDP arm teleop, MuJoCo sim2sim): [deploy/booster_deploy](deploy/booster_deploy/README.md). Pages with videos: [pages/](pages/index.html).
+> Licensing: the added files are MIT ([LICENSE-ADDITIONS](LICENSE-ADDITIONS)); upstream booster_mjlab has no license file. The default AMP motions come from LAFAN1 (CC BY-NC-ND 4.0), the robot model from booster_assets (BSD-3).
+
 # booster_mjlab
 
 booster_mjlab is an [mjlab](https://github.com/mujocolab/mjlab) integration for the Booster K1.

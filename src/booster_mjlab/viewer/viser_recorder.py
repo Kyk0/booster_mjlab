@@ -42,6 +42,20 @@ from mjlab.viewer.viser.viewer import ViserPlayViewer
 from typing_extensions import override
 
 DEFAULT_VIDEO_DIR = Path("logs/videos/viser")
+# Frames come from the browser as lossless PNG and are encoded at near-lossless
+# quality (the JPEG transport + default encoder settings looked blurry and grey).
+VIDEO_CRF = 17
+
+
+def _to_rgb(frame) -> np.ndarray:
+    """RGB uint8 frame; PNG captures carry alpha (empty background = transparent),
+    which would turn black if dropped, so composite it over white."""
+    frame = np.asarray(frame)
+    if frame.shape[-1] == 4:
+        a = frame[..., 3:4].astype(np.float32) / 255.0
+        rgb = frame[..., :3].astype(np.float32) * a + 255.0 * (1.0 - a)
+        return rgb.astype(np.uint8)
+    return frame[..., :3]
 
 # Label -> (height, width). Requests larger than the browser viewport get
 # clamped by the client, so the written video may be smaller than asked for.
@@ -470,17 +484,17 @@ class RecordingViserPlayViewer(ViserPlayViewer):
             frame = ls.client.get_render(
                 height=ls.height,
                 width=ls.width,
-                transport_format="jpeg",
+                transport_format="png",
                 timeout=_RENDER_TIMEOUT_S,
             )
         except Exception as exc:  # noqa: BLE001 - client may drop mid-render.
             self._finish_lockstep(error=f"{type(exc).__name__}: {exc}")
             return False
 
-        frame = np.asarray(frame)[..., :3]
+        frame = _to_rgb(frame)
         if ls.writer is None:
             ls.shape = (frame.shape[0], frame.shape[1])
-            ls.writer = media.VideoWriter(ls.path, shape=ls.shape, fps=ls.fps)
+            ls.writer = media.VideoWriter(ls.path, shape=ls.shape, fps=ls.fps, crf=VIDEO_CRF)
             ls.writer.__enter__()
         elif frame.shape[:2] != ls.shape:
             # The browser was resized mid-recording and the encoder is locked
@@ -647,17 +661,17 @@ class RecordingViserPlayViewer(ViserPlayViewer):
                     frame = client.get_render(
                         height=height,
                         width=width,
-                        transport_format="jpeg",
+                        transport_format="png",
                         timeout=_RENDER_TIMEOUT_S,
                     )
                 except Exception as exc:  # noqa: BLE001 - client may drop mid-render.
                     error = f"{type(exc).__name__}: {exc}"
                     break
 
-                frame = np.asarray(frame)[..., :3]
+                frame = _to_rgb(frame)
                 if writer is None:
                     shape = (frame.shape[0], frame.shape[1])
-                    writer = media.VideoWriter(path, shape=shape, fps=fps)
+                    writer = media.VideoWriter(path, shape=shape, fps=fps, crf=VIDEO_CRF)
                     writer.__enter__()
                 elif frame.shape[:2] != shape:
                     # The browser was resized mid-recording; the encoder is
